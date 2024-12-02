@@ -1,72 +1,90 @@
 #include <iostream>
-#include<queue>
+#include <queue>
 using namespace std;
 
-class node{
-    public:
+// Class definition for a node
+class node {
+public:
     int data;
     node* left;
     node* right;
-    
-    node(int data){
-        this->data=data;
-        this->left=NULL;
-        this->right=NULL;
+
+    // Constructor
+    node(int data) {
+        this->data = data;
+        this->left = NULL;
+        this->right = NULL;
     }
 };
 
-node* buildTree(node* root){
-    cout<<"enter the value of the data"<<endl;
+// Function to build the binary tree
+node* buildTree(node* root) {
+    cout << "Enter the value of the data (-1 for NULL): ";
     int data;
-    cin>>data;
-    root=new node(data);
-    
-    if(data==-1){
+    cin >> data;
+
+    // Base case for recursion
+    if (data == -1) {
         return NULL;
     }
-    
-    cout<<"enter the value of the left child "<<data<<endl;
-    root->left=buildTree(root->left);
-    cout<<"enter the value of the right child "<<data<<endl;
-    root->right=buildTree(root->right);
+
+    // Create a new node
+    root = new node(data);
+
+    cout << "Enter the value of the left child of " << data << ": ";
+    root->left = buildTree(root->left);
+
+    cout << "Enter the value of the right child of " << data << ": ";
+    root->right = buildTree(root->right);
+
     return root;
 }
 
-void LevelOrderTransversal(node* root){
+// Function for level order traversal
+void LevelOrderTraversal(node* root) {
+    if (root == NULL) {
+        return;
+    }
+
     queue<node*> q;
     q.push(root);
-    q.push(NULL);
-    
-    while(!q.empty()){
-        node* temp=q.front();
+    q.push(NULL); // Marker for level separation
+
+    while (!q.empty()) {
+        node* temp = q.front();
         q.pop();
-        
-        if(temp==NULL){
-            cout<<endl;
-            if(!q.empty()){
-                q.push(NULL);
+
+        if (temp == NULL) {
+            cout << endl; // End of a level
+            if (!q.empty()) {
+                q.push(NULL); // Add marker for the next level
             }
-        }
-        else{
-            cout<<temp->data<<" ";
-            
-            if(temp->right){
-                q.push(temp->right);
-            }
-            
-            if(temp->left){
+        } else {
+            cout << temp->data << " ";
+
+            // Enqueue left child first for left-to-right traversal
+            if (temp->left) {
                 q.push(temp->left);
+            }
+
+            // Enqueue right child
+            if (temp->right) {
+                q.push(temp->right);
             }
         }
     }
 }
 
-
-
+// Main function
 int main() {
-    node* root=NULL;
-    root=buildTree(root);
-    LevelOrderTransversal(root);
+    node* root = NULL;
+
+    // Build the binary tree
+    root = buildTree(root);
+
+    // Perform level order traversal
+    cout << "Level Order Traversal of the binary tree:" << endl;
+    LevelOrderTraversal(root);
 
     return 0;
 }
