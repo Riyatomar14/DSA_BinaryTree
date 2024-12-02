@@ -68,17 +68,40 @@ void inorder(Node* root) {
 }
 
 int main() {
-    Node* root = NULL;
-    root = insertIntoBST(root, 10);
-    root = insertIntoBST(root, 5);
-    root = insertIntoBST(root, 20);
-    root = insertIntoBST(root, 3);
-    root = insertIntoBST(root, 8);
-    root = insertIntoBST(root, 15);
+   Node* root1 = NULL;
+    cout << "Input for first tree:\n";
+    takeInput(root1);
 
-    cout << "In-order traversal of the BST before deletion: ";
-    inorder(root);
+    Node* root2 = NULL;
+    cout << "Input for second tree:\n";
+    takeInput(root2);
+
+    cout << "In-order traversal of the first tree: ";
+    inorder(root1);
     cout << endl;
+
+    cout << "Pre-order traversal of the first tree: ";
+    preorder(root1);
+    cout << endl;
+
+    cout << "Post-order traversal of the first tree: ";
+    postorder(root1);
+    cout << endl;
+
+    cout << "Height of the first tree: " << height(root1) << endl;
+
+    cout << "Leaf nodes in the first tree: " << countLeafNodes(root1) << endl;
+    cout << "Non-leaf nodes in the first tree: " << countNonLeafNodes(root1) << endl;
+
+    if (areEqual(root1, root2)) {
+        cout << "The two BSTs are equal.\n";
+    } else {
+        cout << "The two BSTs are not equal.\n";
+    }
+
+    cout << "Minimum value in the first tree: " << findMin(root1) << endl;
+    cout << "Maximum value in the first tree: " << findMax(root1) << endl;
+
 
     int key = 5;
     cout << "Deleting " << key << " from the BST.\n";
