@@ -6,7 +6,7 @@ public:
     int data;
     Node* left;
     Node* right;
-
+    
     Node(int d) {
         this->data = d;
         this->left = NULL;
@@ -21,19 +21,110 @@ Node* insertIntoBST(Node* root, int d) {
 
     if (d > root->data) {
         root->right = insertIntoBST(root->right, d);
-    } else {
+    }
+    else {
         root->left = insertIntoBST(root->left, d);
     }
 
     return root;
 }
 
-Node* findMin(Node* root) {
+void takeInput(Node*& root) {
+    int n, data;
+    cout << "Enter the number of nodes to insert: ";
+    cin >> n;
+    
+    for (int i = 0; i < n; ++i) {
+        cout << "Enter value for node " << i + 1 << ": ";
+        cin >> data;
+        root = insertIntoBST(root, data);
+    }
+}
+
+void inorder(Node* root) {
+    if (root == NULL) return;
+
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+void preorder(Node* root) {
+    if (root == NULL) return;
+
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(Node* root) {
+    if (root == NULL) return;
+
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
+}
+
+bool search(Node* root, int key) {
+    if (root == NULL) return false;
+    if (root->data == key) return true;
+
+    if (key < root->data) {
+        return search(root->left, key);
+    }
+    return search(root->right, key);
+}
+
+int height(Node* root) {
+    if (root == NULL) return -1;
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+    return max(leftHeight, rightHeight) + 1;
+}
+
+int countLeafNodes(Node* root) {
+    if (root == NULL) return 0;
+    if (root->left == NULL && root->right == NULL) return 1;
+    return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+
+int countNonLeafNodes(Node* root) {
+    if (root == NULL) return 0;
+    if (root->left == NULL && root->right == NULL) return 0;
+    return 1 + countNonLeafNodes(root->left) + countNonLeafNodes(root->right);
+}
+
+bool areEqual(Node* root1, Node* root2) {
+    if (root1 == NULL && root2 == NULL) return true;
+    if (root1 == NULL || root2 == NULL) return false;
+    if (root1->data != root2->data) return false;
+    return areEqual(root1->left, root2->left) && areEqual(root1->right, root2->right);
+}
+
+int findMin(Node* root) {
+    if (root == NULL) {
+        cout << "The tree is empty." << endl;
+        return -1;
+    }
+
     while (root->left != NULL) {
         root = root->left;
     }
-    return root;
+    return root->data;
 }
+
+int findMax(Node* root) {
+    if (root == NULL) {
+        cout << "The tree is empty." << endl;
+        return -1;
+    }
+
+    while (root->right != NULL) {
+        root = root->right;
+    }
+    return root->data;
+}
+
 
 Node* deleteNode(Node* root, int key) {
     if (root == NULL) return root;
@@ -60,12 +151,6 @@ Node* deleteNode(Node* root, int key) {
     return root;
 }
 
-void inorder(Node* root) {
-    if (root == NULL) return;
-    inorder(root->left);
-    cout << root->data << " ";
-    inorder(root->right);
-}
 
 int main() {
    Node* root1 = NULL;
