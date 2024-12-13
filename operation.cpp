@@ -127,13 +127,17 @@ int findMax(Node* root) {
 
 
 Node* deleteNode(Node* root, int key) {
+    //search the delted node
     if (root == NULL) return root;
 
     if (key < root->data) {
         root->left = deleteNode(root->left, key);
     } else if (key > root->data) {
         root->right = deleteNode(root->right, key);
-    } else {
+    }
+        //after finding, we delete it
+    else {
+        //one or no child
         if (root->left == NULL) {
             Node* temp = root->right;
             delete root;
@@ -142,7 +146,9 @@ Node* deleteNode(Node* root, int key) {
             Node* temp = root->left;
             delete root;
             return temp;
-        } else {
+        } 
+            // two child 
+        else {
             Node* temp = findMin(root->right);
             root->data = temp->data;
             root->right = deleteNode(root->right, temp->data);
